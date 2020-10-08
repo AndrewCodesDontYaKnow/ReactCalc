@@ -16,8 +16,6 @@ class Button extends Component {
           this.isOperator(this.props.children) ? "" : "operator"}`}
           onClick={() => {
               this.props.handleClick(this.props.children);
-              console.log(`hi`)
-            
         }}
       >
         {this.props.children}

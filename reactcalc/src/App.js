@@ -18,6 +18,9 @@ class App extends Component {
       calcRecord: "",
       answer: "",
     };
+
+    
+
   }
 
   addToInput = (val) => {
@@ -55,8 +58,14 @@ class App extends Component {
 
 
 handleEvaluate = () => {
+  let calcArray = [];
+  let calculationRecord = this.setAnswer(this.evaluate());
+  this.setState({
+    input: this.evaluate()
+  }) 
 
-  this.setAnswer(this.evaluate());
+  calcArray.push(this.evaluate())
+  console.log(calcArray)
   
 }
 
@@ -72,30 +81,31 @@ handleEvaluate = () => {
           parseFloat(this.state.currentNumber)
       
     } else if (this.state.operator === "subtract") {
-      this.setState({
-        input:
+      answer = 
           parseFloat(this.state.previousNumber) -
-          parseFloat(this.state.currentNumber),
-      });
+          parseFloat(this.state.currentNumber)
+      
     } else if (this.state.operator === "multiply") {
-      this.setState({
-        input:
+      answer = 
           parseFloat(this.state.previousNumber) *
-          parseFloat(this.state.currentNumber),
-      });
+          parseFloat(this.state.currentNumber)
+      
     } else if (this.state.operator === "divide") {
-      this.setState({
-        input:
+      answer = 
           parseFloat(this.state.previousNumber) /
-          parseFloat(this.state.currentNumber),
-      });
+          parseFloat(this.state.currentNumber)
+      
     }
+
+
+
     return answer
   };
 
 setAnswer = (answer) => {
 
   this.setState({ calcRecord: this.state.calcRecord + " = " + answer });
+  return this.setState({ calcRecord: this.state.calcRecord + " = " + answer });
 
 }
 
