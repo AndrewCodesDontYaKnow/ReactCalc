@@ -3,6 +3,7 @@ import "./App.css";
 import Button from "./components/Button";
 import Input from "./components/Input";
 import ClearButton from "./components/ClearButton";
+import CalculationList from "./components/CalculationList";
 
 class App extends Component {
   // container for holding the states
@@ -14,17 +15,21 @@ class App extends Component {
       previousNumber: "",
       currentNumber: "",
       operator: "",
+      calcRecord: "",
+      answer: "",
     };
   }
 
   addToInput = (val) => {
     this.setState({ input: this.state.input + val });
+    this.setState({ calcRecord: this.state.calcRecord + val })
   };
 
   addZeroToInput = (val) => {
     // if this.state.input is not empty then add zero
     if (this.state.input !== "") {
       this.setState({ input: this.state.input + val });
+      this.setState({ calcRecord: this.state.calcRecord + val })
     }
   };
 
@@ -32,6 +37,7 @@ class App extends Component {
     // if there is no decimal in input, then add the decimal
     if (this.state.input.indexOf(".") === -1) {
       this.setState({ input: this.state.input + val });
+      this.setState({ calcRecord: this.state.calcRecord + val })
     }
   };
 
@@ -44,53 +50,74 @@ class App extends Component {
     this.state.previousNumber = this.state.input;
     this.setState({ input: "" });
     this.state.operator = "plus";
+    this.setState({ calcRecord: this.state.calcRecord + " + " })
   };
+
+
+handleEvaluate = () => {
+
+  this.setAnswer(this.evaluate());
+  
+}
 
   evaluate = () => {
     this.state.currentNumber = this.state.input;
-    if (this.state.operator == "plus") {
-      this.setState({
-        input:
+
+    let answer = 0;
+
+    if (this.state.operator === "plus") {
+      
+        answer = 
           parseFloat(this.state.previousNumber) +
-          parseFloat(this.state.currentNumber),
-      });
-    } else if (this.state.operator == "subtract") {
+          parseFloat(this.state.currentNumber)
+      
+    } else if (this.state.operator === "subtract") {
       this.setState({
         input:
           parseFloat(this.state.previousNumber) -
           parseFloat(this.state.currentNumber),
       });
-    } else if (this.state.operator == "multiply") {
+    } else if (this.state.operator === "multiply") {
       this.setState({
         input:
           parseFloat(this.state.previousNumber) *
           parseFloat(this.state.currentNumber),
       });
-    } else if (this.state.operator == "divide") {
+    } else if (this.state.operator === "divide") {
       this.setState({
         input:
           parseFloat(this.state.previousNumber) /
           parseFloat(this.state.currentNumber),
       });
     }
+    return answer
   };
+
+setAnswer = (answer) => {
+
+  this.setState({ calcRecord: this.state.calcRecord + " = " + answer });
+
+}
 
   subtract = () => {
     this.state.previousNumber = this.state.input;
     this.setState({ input: "" });
     this.state.operator = "subtract";
+    this.setState({ calcRecord: this.state.calcRecord + " - " });
   };
 
   multiply = () => {
     this.state.previousNumber = this.state.input;
     this.setState({ input: "" });
     this.state.operator = "multiply";
+    this.setState({ calcRecord: this.state.calcRecord + " * " });
   };
 
   divide = () => {
     this.state.previousNumber = this.state.input;
     this.setState({ input: "" });
     this.state.operator = "divide";
+    this.setState({ calcRecord: this.state.calcRecord + " / " });
   };
 
   render() {
@@ -125,13 +152,16 @@ class App extends Component {
           <div className="row">
             <Button handleClick={this.addDecimal}>.</Button>
             <Button handleClick={this.addZeroToInput}>0</Button>
-            <Button handleClick={this.evaluate}>=</Button>
+            <Button handleClick={this.handleEvaluate}>=</Button>
             <Button handleClick={this.subtract}>-</Button>
           </div>
 
           <div className="row">
             <ClearButton handleClear={this.clearInput}>Clear</ClearButton>
           </div>
+        </div>
+        <div className="list-wrapper">
+      <CalculationList>{this.state.calcRecord}</CalculationList>
         </div>
       </div>
     );
