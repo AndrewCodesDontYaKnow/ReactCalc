@@ -86,11 +86,11 @@ handleEvaluate = () => {
     input: this.evaluate()
   }) 
 
-calcList.unshift(this.evaluate())
-console.log(calcList)
+// calcList.unshift(this.evaluate())
+// console.log(calcList)
 
-  calcArray.push(this.evaluate())
-  console.log(calcArray)
+  // calcArray.push(this.evaluate())
+  // console.log(calcArray)
   
 }
 
@@ -129,7 +129,12 @@ console.log(calcList)
 
 setAnswer = (answer) => {
 
-  this.setState({ calcRecord: this.state.calcRecord + " = " + answer });
+  // calcList.unshift(this.evaluate())
+
+  this.setState({ 
+    calcRecord: this.state.calcRecord + " = " + answer,
+    calcList: calcList.unshift(this.state.calcRecord + " = " + answer)
+  });
   return this.setState({ calcRecord: this.state.calcRecord + " = " + answer });
 
 }
