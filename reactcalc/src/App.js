@@ -8,7 +8,7 @@ import CalculationList from "./components/CalculationList";
 function NumberList(props) {
   console.log(props)
   const calculationList = props.calcList;
-
+  console.log(props.calcList)
   const listItems = calculationList.map((number) =>
     <li>{number}</li>
   );
@@ -58,7 +58,10 @@ class App extends Component {
   };
 
   clearInput = () => {
-    this.setState({ input: "" });
+    this.setState({ 
+      input: "",
+      calcRecord: ""
+    });
   };
 
   add = () => {
@@ -130,12 +133,13 @@ handleEvaluate = () => {
 setAnswer = (answer) => {
 
   // calcList.unshift(this.evaluate())
-
+let result = this.state.calcRecord + " = " + answer
+console.log(result)
   this.setState({ 
-    calcRecord: this.state.calcRecord + " = " + answer,
-    calcList: calcList.unshift(this.state.calcRecord + " = " + answer)
+    calcRecord: result,
+    calcList: calcList.unshift(result)
   });
-  return this.setState({ calcRecord: this.state.calcRecord + " = " + answer });
+ // return this.setState({ calcRecord: this.state.calcRecord + " = " + answer });
 
 }
 
