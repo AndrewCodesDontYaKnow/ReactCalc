@@ -24,5 +24,4 @@ class CalculationList extends Component {
     );
   }}
 
-
 export default CalculationList;

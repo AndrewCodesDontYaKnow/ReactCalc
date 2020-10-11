@@ -5,6 +5,19 @@ import Input from "./components/Input";
 import ClearButton from "./components/ClearButton";
 import CalculationList from "./components/CalculationList";
 
+function NumberList(props) {
+  console.log(props)
+  const calculationList = props.calcList;
+
+  const listItems = calculationList.map((number) =>
+    <li>{number}</li>
+  );
+  return (
+    <ul>{listItems}</ul>
+  );
+}
+const calcList = [];
+
 class App extends Component {
   // container for holding the states
   constructor(props) {
@@ -50,10 +63,19 @@ class App extends Component {
 
   add = () => {
     // store the previous number so we can use it in the operator function
-    this.state.previousNumber = this.state.input;
-    this.setState({ input: "" });
-    this.state.operator = "plus";
-    this.setState({ calcRecord: this.state.calcRecord + " + " })
+    // this.state.previousNumber = this.state.input;
+    // this.setState({ previousNumber: this.state.input })
+    // this.setState({ input: "" });
+    // this.state.operator = "plus";
+    // this.setState({ calcRecord: this.state.calcRecord + " + " })
+
+    this.setState({
+      previousNumber: this.state.input,
+      input: "",
+      operator: "plus",
+      calcRecord: this.state.calcRecord + "+"
+    })
+
   };
 
 
@@ -63,6 +85,9 @@ handleEvaluate = () => {
   this.setState({
     input: this.evaluate()
   }) 
+
+calcList.unshift(this.evaluate())
+console.log(calcList)
 
   calcArray.push(this.evaluate())
   console.log(calcArray)
@@ -172,9 +197,9 @@ setAnswer = (answer) => {
         </div>
         <div className="list-wrapper">
 
-      
+        <NumberList calcList={calcList} />
 
-      <CalculationList>{this.state.calcRecord}</CalculationList>
+      {/* <CalculationList>{this.state.calcRecord}</CalculationList> */}
         </div>
       </div>
     );
