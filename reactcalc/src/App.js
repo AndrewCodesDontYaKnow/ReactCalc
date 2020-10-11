@@ -19,9 +19,9 @@ class App extends Component {
       answer: "",
     };
 
-    
-
   }
+
+
 
   addToInput = (val) => {
     this.setState({ input: this.state.input + val });
@@ -171,6 +171,9 @@ setAnswer = (answer) => {
           </div>
         </div>
         <div className="list-wrapper">
+
+      
+
       <CalculationList>{this.state.calcRecord}</CalculationList>
         </div>
       </div>
