@@ -44,16 +44,20 @@ class App extends Component {
   addZeroToInput = (val) => {
     // if this.state.input is not empty then add zero
     if (this.state.input !== "") {
-      this.setState({ input: this.state.input + val });
-      this.setState({ calcRecord: this.state.calcRecord + val })
+      this.setState({ 
+        input: this.state.input + val,
+        calcRecord: this.state.calcRecord + val
+       });
     }
   };
 
   addDecimal = (val) => {
     // if there is no decimal in input, then add the decimal
     if (this.state.input.indexOf(".") === -1) {
-      this.setState({ input: this.state.input + val });
-      this.setState({ calcRecord: this.state.calcRecord + val })
+      this.setState({ 
+        input: this.state.input + val,
+        calcRecord: this.state.calcRecord + val
+       });
     }
   };
 
@@ -65,13 +69,6 @@ class App extends Component {
   };
 
   add = () => {
-    // store the previous number so we can use it in the operator function
-    // this.state.previousNumber = this.state.input;
-    // this.setState({ previousNumber: this.state.input })
-    // this.setState({ input: "" });
-    // this.state.operator = "plus";
-    // this.setState({ calcRecord: this.state.calcRecord + " + " })
-
     this.setState({
       previousNumber: this.state.input,
       input: "",
@@ -142,14 +139,11 @@ if (calcList.length < 10){
   });
 } else if (calcList.length >= 10) {
   this.setState({ calcList: calcList.pop()})
-  console.log(`this is the calcList after pop: ${this.state.calcList}`)
   this.setState({ 
     calcRecord: result,
     calcList: calcList.unshift(result)
   });
 }
- // return this.setState({ calcRecord: this.state.calcRecord + " = " + answer });
-
 }
 
   subtract = () => {
