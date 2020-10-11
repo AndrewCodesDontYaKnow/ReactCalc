@@ -84,7 +84,7 @@ class App extends Component {
 
 handleEvaluate = () => {
   let calcArray = [];
-  let calculationRecord = this.setAnswer(this.evaluate());
+  this.setAnswer(this.evaluate());
   this.setState({
     input: this.evaluate()
   }) 
@@ -134,11 +134,20 @@ setAnswer = (answer) => {
 
   // calcList.unshift(this.evaluate())
 let result = this.state.calcRecord + " = " + answer
-console.log(result)
+
+if (calcList.length < 10){
   this.setState({ 
     calcRecord: result,
     calcList: calcList.unshift(result)
   });
+} else if (calcList.length >= 10) {
+  this.setState({ calcList: calcList.pop()})
+  console.log(`this is the calcList after pop: ${this.state.calcList}`)
+  this.setState({ 
+    calcRecord: result,
+    calcList: calcList.unshift(result)
+  });
+}
  // return this.setState({ calcRecord: this.state.calcRecord + " = " + answer });
 
 }
