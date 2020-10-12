@@ -3,8 +3,7 @@ import "./App.css";
 import Button from "./components/Button";
 import Input from "./components/Input";
 import ClearButton from "./components/ClearButton";
-import axios from 'axios';
-import CalculationList from "./components/CalculationList";
+// import axios from 'axios';
 
 function NumberList(props) {
   console.log(props)
@@ -79,36 +78,12 @@ class App extends Component {
 
   };
 
-submit = (event) => {
-  event.preventDefault();
-
-  const payload = {
-    calculation: this.state.calcRecord
-  };
-
-  axios({
-    url: 'http://localhost:8080/api/save',
-    method: 'POST',
-    data: payload
-  })
-  .then(() => {
-    console.log('Data has been sent to server')
-  })
-  .catch(() => {
-    console.log('Internal server error')
-  });
-
-}
-
 
 handleEvaluate = () => {
-  let calcArray = [];
   this.setAnswer(this.evaluate());
   this.setState({
     input: this.evaluate()
   }) 
-
-  this.submit();
 }
 
   evaluate = () => {
@@ -138,15 +113,11 @@ handleEvaluate = () => {
           parseFloat(this.state.currentNumber)
       
     }
-
-
-
     return answer
   };
 
 setAnswer = (answer) => {
 
-  // calcList.unshift(this.evaluate())
 let result = this.state.calcRecord + " = " + answer
 
 if (calcList.length < 10){
@@ -160,31 +131,33 @@ if (calcList.length < 10){
     calcRecord: result,
     calcList: calcList.unshift(result)
   });
-}
+}}
 
-// this.submit();
-
-}
 
   subtract = () => {
-    this.state.previousNumber = this.state.input;
-    this.setState({ input: "" });
-    this.state.operator = "subtract";
-    this.setState({ calcRecord: this.state.calcRecord + " - " });
+    this.setState({
+      previousNumber: this.state.input,
+      input: "",
+      operator: "subtract",
+      calcRecord: this.state.calcRecord + " - "
+    })
   };
 
   multiply = () => {
-    this.state.previousNumber = this.state.input;
-    this.setState({ input: "" });
-    this.state.operator = "multiply";
-    this.setState({ calcRecord: this.state.calcRecord + " * " });
-  };
+    this.setState({
+      previousNumber: this.state.input,
+      input: "",
+      operator: "multiply",
+      calcRecord: this.state.calcRecord + " * "
+    })  };
 
   divide = () => {
-    this.state.previousNumber = this.state.input;
-    this.setState({ input: "" });
-    this.state.operator = "divide";
-    this.setState({ calcRecord: this.state.calcRecord + " / " });
+    this.setState({
+      previousNumber: this.state.input,
+      input: "",
+      operator: "divide",
+      calcRecord: this.state.calcRecord + " / "
+    })
   };
 
   render() {
@@ -230,8 +203,6 @@ if (calcList.length < 10){
         <div className="list-wrapper">
 
         <NumberList calcList={calcList} />
-
-      {/* <CalculationList>{this.state.calcRecord}</CalculationList> */}
         </div>
       </div>
     );
@@ -239,3 +210,35 @@ if (calcList.length < 10){
 }
 
 export default App;
+
+
+
+
+
+
+
+
+
+
+
+
+// submit = (event) => {
+//   event.preventDefault();
+
+//   const payload = {
+//     calculation: this.state.calcRecord
+//   };
+
+//   axios({
+//     url: 'http://localhost:8080/api/save',
+//     method: 'POST',
+//     data: payload
+//   })
+//   .then(() => {
+//     console.log('Data has been sent to server')
+//   })
+//   .catch(() => {
+//     console.log('Internal server error')
+//   });
+
+// }
