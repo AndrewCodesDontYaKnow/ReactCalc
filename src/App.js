@@ -3,6 +3,7 @@ import "./App.css";
 import Button from "./components/Button";
 import Input from "./components/Input";
 import ClearButton from "./components/ClearButton";
+import axios from 'axios';
 import CalculationList from "./components/CalculationList";
 
 function NumberList(props) {
@@ -34,7 +35,7 @@ class App extends Component {
 
   }
 
-// comment
+// comment new comment
 
   addToInput = (val) => {
     this.setState({ input: this.state.input + val });
@@ -78,6 +79,27 @@ class App extends Component {
 
   };
 
+submit = (event) => {
+  event.preventDefault();
+
+  const payload = {
+    calculation: this.state.calcRecord
+  };
+
+  axios({
+    url: 'http://localhost:8080/api/save',
+    method: 'POST',
+    data: payload
+  })
+  .then(() => {
+    console.log('Data has been sent to server')
+  })
+  .catch(() => {
+    console.log('Internal server error')
+  });
+
+}
+
 
 handleEvaluate = () => {
   let calcArray = [];
@@ -86,12 +108,7 @@ handleEvaluate = () => {
     input: this.evaluate()
   }) 
 
-// calcList.unshift(this.evaluate())
-// console.log(calcList)
-
-  // calcArray.push(this.evaluate())
-  // console.log(calcArray)
-  
+  this.submit();
 }
 
   evaluate = () => {
@@ -144,6 +161,9 @@ if (calcList.length < 10){
     calcList: calcList.unshift(result)
   });
 }
+
+// this.submit();
+
 }
 
   subtract = () => {
