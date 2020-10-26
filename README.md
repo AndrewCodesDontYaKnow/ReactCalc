@@ -1,4 +1,4 @@
-# RomanNumeralTranslator
+# ReactCalc
 
 ## Description
 A calculator that displays the ten most recent calculations made.
