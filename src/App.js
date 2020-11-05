@@ -5,6 +5,8 @@ import Input from "./components/Input";
 import ClearButton from "./components/ClearButton";
 // import axios from 'axios';
 
+
+
 function NumberList(props) {
   console.log(props)
   const calculationList = props.calcList;
@@ -35,7 +37,6 @@ class App extends Component {
   }
 
 // comment new comment
-
   addToInput = (val) => {
     this.setState({ input: this.state.input + val });
     this.setState({ calcRecord: this.state.calcRecord + val })
