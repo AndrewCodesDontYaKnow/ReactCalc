@@ -7,13 +7,15 @@
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
     "axios": "^0.20.0",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
-    "mongodb": "^3.6.2",
+    "fs": "0.0.1-security",
     "morgan": "^1.10.0",
     "path": "^0.12.7",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-scripts": "3.4.3"
+    "react-scripts": "3.4.3",
+    "sqlite3": "^5.0.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -35,5 +37,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.3",
+    "@babel/preset-react": "^7.12.5"
   }
 }
