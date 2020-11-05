@@ -1,7 +1,7 @@
-# RomanNumeralTranslator
+# ReactCalc
 
 ## Description
-A calculator that display the ten most recent calculations made.
+A calculator that displays the ten most recent calculations made.
 
 URL: https://andrewcodesdontyaknow.github.io/ReactCalc
  
