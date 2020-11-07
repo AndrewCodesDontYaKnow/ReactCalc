@@ -3,22 +3,23 @@ import "./App.css";
 import Button from "./components/Button";
 import Input from "./components/Input";
 import ClearButton from "./components/ClearButton";
+import NumberList from "./components/NumberList";
 // import axios from 'axios';
 
 
 
-function NumberList(props) {
-  // console.log(props)
-  const calculationList = props.calcList;
-  // console.log(props.calcList)
-  const listItems = calculationList.map((number) =>
-    <li>{number}</li>
-  );
-  return (
-    <ul>{listItems}</ul>
-  );
-}
-const calcList = [];
+// function NumberList(props) {
+//   // console.log(props)
+//   const calculationList = props.calcList;
+//   // console.log(props.calcList)
+//   const listItems = calculationList.map((number) =>
+//     <li>{number}</li>
+//   );
+//   return (
+//     <ul>{listItems}</ul>
+//   );
+// }
+// const calcList = [];
 
 class App extends Component {
   // container for holding the states
@@ -37,13 +38,17 @@ class App extends Component {
         id: 1,
         calc: 'sample calculation'
       },
-      test: 'testhi'
+      test: 'testhi',
+      calcList: []
     };
+
+    
   }
 
 componentDidMount() {
   this.getCalculations();
 }
+
 
 getCalculations = _ => {
   fetch('http://localhost:4000/calculations')
@@ -53,8 +58,7 @@ getCalculations = _ => {
 }
 
 addCalculation = _ => {
-  console.log(calcList)
-  fetch(`http://localhost:4000/calculations/add?calc=${this.state.calcRecord}`)
+  fetch(`http://localhost:4000/calculations/add?calc=${this.state.test}`)
     // .then(response => response.json())
     .then(this.getCalculations)
     .catch(err => console.error(err))
@@ -109,7 +113,7 @@ renderCalculation = ({ id, calc }) => <div key={id}>{calc}</div>
 
 
 handleEvaluate = () => {
-  this.setAnswer(this.evaluate());
+  this.setAnswer(this.evaluate())
   this.addCalculation();
   this.setState({
     input: this.evaluate()
@@ -147,8 +151,12 @@ handleEvaluate = () => {
   };
 
 setAnswer = (answer) => {
-const calcList = this.state
+
 let result = this.state.calcRecord + " = " + answer
+console.log(`result is: ${result}, setting test equal to it..`)
+
+const { calcList } = this.state;
+this.setState({ test: result })
 
 if (calcList.length < 10){
   this.setState({ 
@@ -238,7 +246,7 @@ if (calcList.length < 10){
         </div>
         <div className="list-wrapper">
 
-        <NumberList calcList={calcList} />
+        <NumberList calcList={this.state.test} />
         </div>
       </div>
     );
