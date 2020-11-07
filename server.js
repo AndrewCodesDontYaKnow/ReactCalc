@@ -1,11 +1,12 @@
 const express = require('express');
 const cors = require('cors');
 const mysql = require('mysql');
-// import App, { calcList } from './src/App';
+// import App from './src/App';
 
 const app = express();
 
 const SELECT_TEN_CALCS_QUERY = 'SELECT calc FROM calctable ORDER BY id DESC LIMIT 10;';
+// const SELECT_ALL_CALCULATIONS_QUERY = 'SELECT * FROM calctable';
 
 const connection = mysql.createConnection({
     host: 'localhost',
@@ -20,18 +21,18 @@ connection.connect(err => {
     }
 });
 
-console.log(connection)
-
 app.use(cors());
 
 app.get('/', (req, res) => {
-   res.send('this is the / route woo!')
+   res.send('go to the /calculations route to see calculations')
 });
 
 app.get('/calculations/add', (req, res) => {
     const { calc } = req.query;
-    // instead of 'testmon' use the calcRecord from app.js
-    const INSERT_CALCULATION_QUERY = `INSERT INTO calctable (calc) VALUES ('hieee');`;
+    console.log(`here is req.query.calc: ${calc}`)
+
+    const INSERT_CALCULATION_QUERY = `INSERT INTO calctable (calc) VALUES (${calc});`;
+    
     connection.query(INSERT_CALCULATION_QUERY, (err, results) => {
         if(err) {
             return res.send(err)

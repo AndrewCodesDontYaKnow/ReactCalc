@@ -8,9 +8,9 @@ import ClearButton from "./components/ClearButton";
 
 
 function NumberList(props) {
-  console.log(props)
+  // console.log(props)
   const calculationList = props.calcList;
-  console.log(props.calcList)
+  // console.log(props.calcList)
   const listItems = calculationList.map((number) =>
     <li>{number}</li>
   );
@@ -32,9 +32,37 @@ class App extends Component {
       operator: "",
       calcRecord: "",
       answer: "",
+      calculations: [],
+      calculation: {
+        id: 1,
+        calc: 'sample calculation'
+      },
+      test: 'testhi'
     };
-
   }
+
+componentDidMount() {
+  this.getCalculations();
+}
+
+getCalculations = _ => {
+  fetch('http://localhost:4000/calculations')
+    .then(response => response.json())
+    .then(response => this.setState({ calculations: response.data }))
+    .catch(err => console.error(err))
+}
+
+addCalculation = _ => {
+  console.log(calcList)
+  fetch(`http://localhost:4000/calculations/add?calc=${this.state.test}`)
+    // .then(response => response.json())
+    .then(this.getCalculations)
+    .catch(err => console.error(err))
+}
+
+// 
+renderCalculation = ({ id, calc }) => <div key={id}>{calc}</div>
+
 
 // comment new comment
   addToInput = (val) => {
@@ -82,6 +110,7 @@ class App extends Component {
 
 handleEvaluate = () => {
   this.setAnswer(this.evaluate());
+  this.addCalculation();
   this.setState({
     input: this.evaluate()
   }) 
@@ -162,8 +191,14 @@ if (calcList.length < 10){
   };
 
   render() {
+    // const { calculations } = this.state;
     return (
       <div className="App">
+
+        <div className="calcArea">
+          {this.state.calculations.map(this.renderCalculation)}
+        </div>
+
         <div className="calc-wrapper">
           <div className="row">
             <Input>{this.state.input}</Input>

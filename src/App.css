@@ -30,3 +30,12 @@ li {
     position: relative;
     bottom: 50px;
 }
+
+.calcArea {
+    position: absolute;
+    top: 3px;
+    color: white;
+    background-color: purple;
+    height: 100px;
+    width: 100px;
+}
