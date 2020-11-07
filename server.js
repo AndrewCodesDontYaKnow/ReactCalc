@@ -31,7 +31,7 @@ app.get('/calculations/add', (req, res) => {
     const { calc } = req.query;
     console.log(`here is req.query.calc: ${calc}`)
 
-    const INSERT_CALCULATION_QUERY = `INSERT INTO calctable (calc) VALUES (${calc});`;
+    const INSERT_CALCULATION_QUERY = `INSERT INTO calctable (calc) VALUES ('${calc}');`;
     
     connection.query(INSERT_CALCULATION_QUERY, (err, results) => {
         if(err) {

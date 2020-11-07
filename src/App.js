@@ -54,7 +54,7 @@ getCalculations = _ => {
 
 addCalculation = _ => {
   console.log(calcList)
-  fetch(`http://localhost:4000/calculations/add?calc=${this.state.test}`)
+  fetch(`http://localhost:4000/calculations/add?calc=${this.state.calcRecord}`)
     // .then(response => response.json())
     .then(this.getCalculations)
     .catch(err => console.error(err))
@@ -147,7 +147,7 @@ handleEvaluate = () => {
   };
 
 setAnswer = (answer) => {
-
+const calcList = this.state
 let result = this.state.calcRecord + " = " + answer
 
 if (calcList.length < 10){
