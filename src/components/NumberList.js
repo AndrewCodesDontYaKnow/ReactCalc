@@ -2,9 +2,7 @@ import React, { Component } from "react";
 import "./NumberList";
 
 class NumberList extends Component {
-  constructor(props) {
-    super(props);
-  }
+
   render() {
     let listItems = this.props.calcList;
 
@@ -14,7 +12,7 @@ class NumberList extends Component {
     //   <li>{number}</li>
     // );
 
-    return <h1>{listItems}</h1>;
+    return <li>{listItems}</li>;
   }
 }
 

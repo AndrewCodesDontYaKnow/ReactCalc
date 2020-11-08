@@ -4,25 +4,8 @@ import Button from "./components/Button";
 import Input from "./components/Input";
 import ClearButton from "./components/ClearButton";
 import NumberList from "./components/NumberList";
-// import axios from 'axios';
-
-
-
-// function NumberList(props) {
-//   // console.log(props)
-//   const calculationList = props.calcList;
-//   // console.log(props.calcList)
-//   const listItems = calculationList.map((number) =>
-//     <li>{number}</li>
-//   );
-//   return (
-//     <ul>{listItems}</ul>
-//   );
-// }
-// const calcList = [];
 
 class App extends Component {
-  // container for holding the states
   constructor(props) {
     super(props);
 
@@ -36,173 +19,189 @@ class App extends Component {
       calculations: [],
       calculation: {
         id: 1,
-        calc: 'sample calculation'
+        calc: "sample calculation",
       },
-      test: 'testhi',
-      calcList: []
+      test: "testhi",
+      calcList: [],
+      evaluating: false
     };
-
-    
   }
 
-componentDidMount() {
-  this.getCalculations();
-}
+  componentDidMount = () => {
+    this.getCalculations();
+  };
 
+  getCalculations = (_) => {
+    fetch("http://localhost:4000/calculations")
+      .then((response) => response.json())
+      .then((response) => this.setState({ calculations: response.data }))
+      .catch((err) => console.error(err));
+  };
 
-getCalculations = _ => {
-  fetch('http://localhost:4000/calculations')
-    .then(response => response.json())
-    .then(response => this.setState({ calculations: response.data }))
-    .catch(err => console.error(err))
-}
+  addCalculation = (_) => {
+    fetch(`http://localhost:4000/calculations/add?calc=${this.state.test}`)
+      // .then(response => response.json())
+      .then(this.getCalculations)
+      .catch((err) => console.error(err));
+  };
 
-addCalculation = _ => {
-  fetch(`http://localhost:4000/calculations/add?calc=${this.state.test}`)
-    // .then(response => response.json())
-    .then(this.getCalculations)
-    .catch(err => console.error(err))
-}
+  //
+  renderCalculation = ({ id, calc }) => {
+    return <div key={id}>{calc}</div>;
+  };
 
-// 
-renderCalculation = ({ id, calc }) => <div key={id}>{calc}</div>
-
-
-// comment new comment
   addToInput = (val) => {
-    this.setState({ input: this.state.input + val });
-    this.setState({ calcRecord: this.state.calcRecord + val })
+    if (this.state.evaluating === true) {
+      console.log(`added to input while evaluating true`)
+      this.setState({
+        input: val,
+        calcRecord: val,
+        currentNumber: val,
+        evaluating: false
+      })
+    } else if(this.state.input.slice(-1) === " " || !this.state.input){
+      console.log(`added to input after operator or nothing`)
+      this.setState({
+        input: this.state.input + val,
+        calcRecord: this.state.calcRecord + val,
+        currentNumber: val,
+      })
+    } else {
+      console.log(`added to input after number`)
+      this.setState({
+        input: this.state.input + val,
+        calcRecord: this.state.calcRecord + val,
+        currentNumber: this.state.currentNumber + val,
+      });
+    }
   };
 
   addZeroToInput = (val) => {
     // if this.state.input is not empty then add zero
     if (this.state.input !== "") {
-      this.setState({ 
+      this.setState({
         input: this.state.input + val,
-        calcRecord: this.state.calcRecord + val
-       });
+        calcRecord: this.state.calcRecord + val,
+        currentNumber: this.state.currentNumber + val
+      });
     }
   };
 
   addDecimal = (val) => {
     // if there is no decimal in input, then add the decimal
     if (this.state.input.indexOf(".") === -1) {
-      this.setState({ 
+      this.setState({
         input: this.state.input + val,
-        calcRecord: this.state.calcRecord + val
-       });
+        calcRecord: this.state.calcRecord + val,
+      });
     }
   };
 
   clearInput = () => {
-    this.setState({ 
+    this.setState({
       input: "",
-      calcRecord: ""
+      calcRecord: "",
     });
+  };
+
+
+  handleEvaluate = () => {
+    this.setAnswer(this.evaluate());
+    this.addCalculation();
+    this.setState({
+      input: this.evaluate(),
+      evaluating: true,
+    });
+  };
+
+  evaluate = () => {
+    let answer = 0;
+
+    if (this.state.operator === "plus") {
+      answer =
+        parseFloat(this.state.previousNumber) +
+        parseFloat(this.state.currentNumber);
+    } else if (this.state.operator === "subtract") {
+      // console.log(`here is previousnumber: ${this.state.previousNumber}`)
+      // console.log(`here is currentnumber: ${this.state.currentNumber}`)
+      // console.log(`here is PARSE previousnumber: ${parseFloat(this.state.previousNumber)}`)
+      // console.log(`here is PARSE currentnumber: ${parseFloat(this.state.currentNumber)}`)
+      answer =
+        parseFloat(this.state.previousNumber) -
+        parseFloat(this.state.currentNumber);
+    } else if (this.state.operator === "multiply") {
+      answer =
+        parseFloat(this.state.previousNumber) *
+        parseFloat(this.state.currentNumber);
+    } else if (this.state.operator === "divide") {
+      answer =
+        parseFloat(this.state.previousNumber) /
+        parseFloat(this.state.currentNumber);
+    }
+    return answer;
+  };
+
+  setAnswer = (answer) => {
+    let result = this.state.calcRecord + " = " + answer;
+    console.log(`result is: ${result}, setting test equal to it..`);
+
+    const { calcList } = this.state;
+    this.setState({ test: result });
+
+    if (calcList.length < 10) {
+      this.setState({
+        calcRecord: result,
+        calcList: calcList.unshift(result),
+      });
+    } else if (calcList.length >= 10) {
+      this.setState({ calcList: calcList.pop() });
+      this.setState({
+        calcRecord: result,
+        calcList: calcList.unshift(result),
+      });
+    }
   };
 
   add = () => {
     this.setState({
       previousNumber: this.state.input,
-      input: "",
+      input: this.state.calcRecord + " + ",
       operator: "plus",
-      calcRecord: this.state.calcRecord + "+"
-    })
-
+      calcRecord: this.state.calcRecord + " + ",
+    });
   };
-
-
-handleEvaluate = () => {
-  this.setAnswer(this.evaluate())
-  this.addCalculation();
-  this.setState({
-    input: this.evaluate()
-  }) 
-}
-
-  evaluate = () => {
-    this.state.currentNumber = this.state.input;
-
-    let answer = 0;
-
-    if (this.state.operator === "plus") {
-      
-        answer = 
-          parseFloat(this.state.previousNumber) +
-          parseFloat(this.state.currentNumber)
-      
-    } else if (this.state.operator === "subtract") {
-      answer = 
-          parseFloat(this.state.previousNumber) -
-          parseFloat(this.state.currentNumber)
-      
-    } else if (this.state.operator === "multiply") {
-      answer = 
-          parseFloat(this.state.previousNumber) *
-          parseFloat(this.state.currentNumber)
-      
-    } else if (this.state.operator === "divide") {
-      answer = 
-          parseFloat(this.state.previousNumber) /
-          parseFloat(this.state.currentNumber)
-      
-    }
-    return answer
-  };
-
-setAnswer = (answer) => {
-
-let result = this.state.calcRecord + " = " + answer
-console.log(`result is: ${result}, setting test equal to it..`)
-
-const { calcList } = this.state;
-this.setState({ test: result })
-
-if (calcList.length < 10){
-  this.setState({ 
-    calcRecord: result,
-    calcList: calcList.unshift(result)
-  });
-} else if (calcList.length >= 10) {
-  this.setState({ calcList: calcList.pop()})
-  this.setState({ 
-    calcRecord: result,
-    calcList: calcList.unshift(result)
-  });
-}}
-
 
   subtract = () => {
     this.setState({
       previousNumber: this.state.input,
-      input: "",
+      input: this.state.calcRecord + " - ",
       operator: "subtract",
-      calcRecord: this.state.calcRecord + " - "
-    })
+      calcRecord: this.state.calcRecord + " - ",
+    });
   };
 
   multiply = () => {
     this.setState({
       previousNumber: this.state.input,
-      input: "",
+      input: this.state.calcRecord + " * ",
       operator: "multiply",
-      calcRecord: this.state.calcRecord + " * "
-    })  };
+      calcRecord: this.state.calcRecord + " * ",
+    });
+  };
 
   divide = () => {
     this.setState({
       previousNumber: this.state.input,
       input: "",
       operator: "divide",
-      calcRecord: this.state.calcRecord + " / "
-    })
+      calcRecord: this.state.calcRecord + " / ",
+    });
   };
 
   render() {
     // const { calculations } = this.state;
     return (
       <div className="App">
-
         <div className="calcArea">
           {this.state.calculations.map(this.renderCalculation)}
         </div>
@@ -245,8 +244,7 @@ if (calcList.length < 10){
           </div>
         </div>
         <div className="list-wrapper">
-
-        <NumberList calcList={this.state.test} />
+          <NumberList calcList={this.state.test} />
         </div>
       </div>
     );
@@ -254,17 +252,6 @@ if (calcList.length < 10){
 }
 
 export default App;
-
-
-
-
-
-
-
-
-
-
-
 
 // submit = (event) => {
 //   event.preventDefault();
