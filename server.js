@@ -6,6 +6,7 @@ const mysql = require('mysql');
 const app = express();
 
 const SELECT_TEN_CALCS_QUERY = 'SELECT calc FROM calctable ORDER BY id DESC LIMIT 10;';
+const CLEAR_ALL_CALCS_QUERY = 'DELETE * FROM calctable;'
 // const SELECT_ALL_CALCULATIONS_QUERY = 'SELECT * FROM calctable';
 
 const connection = mysql.createConnection({
@@ -54,6 +55,17 @@ app.get('/calculations', (req, res) => {
         }
     })
 })
+
+// app.delete('/clear', (req, res) => {
+//     connection.query(CLEAR_ALL_CALCS_QUERY, (err) => { 
+//         console.log(`clear query fired off`)
+//         if(err) {
+//             return res.send(err)
+//         } else {
+//             return res.send(`delete fired`)
+//         }
+//     })
+// })
 
 const PORT = process.env.PORT || 4000;
 

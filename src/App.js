@@ -25,6 +25,7 @@ class App extends Component {
       calculationArray: [''],
       calcList: [],
       evaluating: false,
+
     };
   }
 
@@ -32,28 +33,21 @@ class App extends Component {
     this.getCalculations();
   };
 
-
-  // TODO:
-  // 1. map the response.data array to a new array with just the calculation strings, do this inside of getCalculations
-  // 2.using method from before with 'joined' var, add the reponse.data array to the calculationArray in state,
-  // -this will cause getCalculations to format the returned data from the db into an array that can be used by NumberList to display correctly
-
   getCalculations = (_) => {
     fetch("http://localhost:4000/calculations")
       .then((response) => response.json())
       .then(jsonResponse => {
-        console.log(jsonResponse)
         return jsonResponse.data.map(calcObject => calcObject.calc)
       })
       .then((calcArray) => {
-        console.log(calcArray)
-        var joined = this.state.calculationArray.concat(calcArray);
-        this.setState({ calculationArray: joined })
+        console.log(`got the calcs: ${calcArray}`)
+        // var joined = this.state.calculationArray.concat(calcArray);
+        // this.setState({ calculationArray: calcArray })
       })
       .catch((err) => console.error(err));
   };
 
-  addCalculation = (_) => {
+  addCalculation = () => {
     const { calculationArray } = this.state;
     console.log(`adding ${calculationArray[calculationArray.length - 1]} to the database`)
 
@@ -69,6 +63,13 @@ class App extends Component {
   renderCalculation = ({ id, calc }) => {
     return <div key={id}>{calc}</div>;
   };
+
+  clearCalculations = (_) => {
+    fetch(
+      `http://localhost:4000/clear/`
+    )
+    .catch((err) => console.error(err))
+  }
 
   addToInput = (val) => {
     if (this.state.evaluating === true) {
@@ -121,18 +122,19 @@ class App extends Component {
     });
   };
 
-  // handleChange = (e) => {
+  // handleChange = () => {
   //   this.setState(this.setAnswer(this.evaluate()), this.addCalculation);
   // }
 
   handleEvaluate = () => {
+    // this.addCalculation()
     if(this.state.evaluating === true) {
       // this.addCalculation();
       return;
     } else {
       // this.handleChange()
     this.setAnswer(this.evaluate());
-    // this.addCalculation();
+    this.addCalculation();
     this.setState({
       input: this.evaluate(),
       evaluating: true,
@@ -166,23 +168,29 @@ class App extends Component {
   setAnswer = (answer) => {
 
     let newCalculation = this.state.calcRecord + " = " + answer;
-
+    // this.addCalculation(newCalculation)
     const { calcList } = this.state;
     // this.setState({ calculationList: newCalculation });
 
     var joined = this.state.calculationArray.concat(newCalculation);
-    // this.setState({ calculationArray: joined });
+    this.setState({ calculationArray: joined });
     if (calcList.length < 10) {
       this.setState({
         calcRecord: newCalculation,
         calculationArray: joined,
-      });
+      },
+      () => {
+        this.addCalculation()
+    });
     } else if (calcList.length >= 10) {
       this.setState({ calcList: calcList.shift() });
       this.setState({
         calcRecord: newCalculation,
         calculationArray: joined,
-      });
+      },
+      () => {
+        this.addCalculation()
+    });
     }
   };
 
@@ -262,9 +270,10 @@ class App extends Component {
             <Button handleClick={this.handleEvaluate}>=</Button>
             <Button handleClick={this.subtract}>-</Button>
           </div>
-
+          
           <div className="row">
             <ClearButton handleClear={this.clearInput}>Clear</ClearButton>
+            {/* <ClearButton handleClear={this.clearCalculations}>Clear Calculations</ClearButton> */}
           </div>
         </div>
         <div className="list-wrapper">
