@@ -4,15 +4,13 @@ import "./NumberList";
 class NumberList extends Component {
 
   render() {
-    let listItems = this.props.calcList;
+    let calcArray = this.props.calculationArray;
+    console.log(calcArray)
+    const calcItems = calcArray.slice(0).reverse().map((calculation) =>
+      <li>{calculation}</li>
+    );
 
-    // const calculationList = props.calcList;
-    // console.log({ calculationList }); 
-    // const listItems = calculationList.map((number) =>
-    //   <li>{number}</li>
-    // );
-
-    return <li>{listItems}</li>;
+    return <ul>{calcItems}</ul>;
   }
 }
 

@@ -21,9 +21,10 @@ class App extends Component {
         id: 1,
         calc: "sample calculation",
       },
-      test: "testhi",
+      calculationList: "calculationListhi",
+      calculationArray: [''],
       calcList: [],
-      evaluating: false
+      evaluating: false,
     };
   }
 
@@ -39,7 +40,11 @@ class App extends Component {
   };
 
   addCalculation = (_) => {
-    fetch(`http://localhost:4000/calculations/add?calc=${this.state.test}`)
+    const calculationArray = this.state;
+
+    fetch(
+      `http://localhost:4000/calculations/add?calc=${calculationArray[calculationArray.length - 1]}`
+    )
       // .then(response => response.json())
       .then(this.getCalculations)
       .catch((err) => console.error(err));
@@ -52,22 +57,22 @@ class App extends Component {
 
   addToInput = (val) => {
     if (this.state.evaluating === true) {
-      console.log(`added to input while evaluating true`)
+      console.log(`added to input while evaluating true`);
       this.setState({
         input: val,
         calcRecord: val,
         currentNumber: val,
-        evaluating: false
-      })
-    } else if(this.state.input.slice(-1) === " " || !this.state.input){
-      console.log(`added to input after operator or nothing`)
+        evaluating: false,
+      });
+    } else if (this.state.input.slice(-1) === " " || !this.state.input) {
+      console.log(`added to input after operator or nothing`);
       this.setState({
         input: this.state.input + val,
         calcRecord: this.state.calcRecord + val,
         currentNumber: val,
-      })
+      });
     } else {
-      console.log(`added to input after number`)
+      console.log(`added to input after number`);
       this.setState({
         input: this.state.input + val,
         calcRecord: this.state.calcRecord + val,
@@ -82,7 +87,7 @@ class App extends Component {
       this.setState({
         input: this.state.input + val,
         calcRecord: this.state.calcRecord + val,
-        currentNumber: this.state.currentNumber + val
+        currentNumber: this.state.currentNumber + val,
       });
     }
   };
@@ -104,14 +109,21 @@ class App extends Component {
     });
   };
 
-
   handleEvaluate = () => {
+    const { calculationArray } = this.state;
+    console.log(`input is: ${this.state.input}`)
+    console.log(calculationArray[0])
+    if(this.state.evaluating === true) {
+      this.addCalculation();
+      return;
+    } else {
     this.setAnswer(this.evaluate());
     this.addCalculation();
     this.setState({
       input: this.evaluate(),
       evaluating: true,
     });
+  }
   };
 
   evaluate = () => {
@@ -142,22 +154,28 @@ class App extends Component {
   };
 
   setAnswer = (answer) => {
-    let result = this.state.calcRecord + " = " + answer;
-    console.log(`result is: ${result}, setting test equal to it..`);
+    console.log(`set answer went off`)
+    let newCalculation = this.state.calcRecord + " = " + answer;
+    console.log(
+      `newCalculation is: ${newCalculation}, setting calculationList equal to it..`
+    );
 
     const { calcList } = this.state;
-    this.setState({ test: result });
+    this.setState({ calculationList: newCalculation });
+
+    var joined = this.state.calculationArray.concat(newCalculation);
+    // this.setState({ calculationArray: joined });
 
     if (calcList.length < 10) {
       this.setState({
-        calcRecord: result,
-        calcList: calcList.unshift(result),
+        calcRecord: newCalculation,
+        calculationArray: joined,
       });
     } else if (calcList.length >= 10) {
-      this.setState({ calcList: calcList.pop() });
+      this.setState({ calcList: calcList.shift() });
       this.setState({
-        calcRecord: result,
-        calcList: calcList.unshift(result),
+        calcRecord: newCalculation,
+        calculationArray: joined,
       });
     }
   };
@@ -202,9 +220,9 @@ class App extends Component {
     // const { calculations } = this.state;
     return (
       <div className="App">
-        <div className="calcArea">
+        {/* <div className="calcArea">
           {this.state.calculations.map(this.renderCalculation)}
-        </div>
+        </div> */}
 
         <div className="calc-wrapper">
           <div className="row">
@@ -244,7 +262,7 @@ class App extends Component {
           </div>
         </div>
         <div className="list-wrapper">
-          <NumberList calcList={this.state.test} />
+          <NumberList calculationArray={this.state.calculationArray} />
         </div>
       </div>
     );
