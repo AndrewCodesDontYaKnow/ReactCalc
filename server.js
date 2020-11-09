@@ -16,6 +16,18 @@ const connection = mysql.createConnection({
     database: 'calculator_db'
 });
 
+if (process.env.JAWSDB_URL) {
+    connection = mysql.createConnection(process.env.JAWSDB_URL);
+} else {
+    connection = myql.createConnection({
+        host: 'localhost',
+        user: 'root',
+        password: 'password',
+        database: 'calculator_db'
+    })
+}
+
+
 connection.connect(err => {
     if(err) {
         return err;
