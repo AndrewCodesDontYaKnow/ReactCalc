@@ -32,15 +32,30 @@ class App extends Component {
     this.getCalculations();
   };
 
+
+  // TODO:
+  // 1. map the response.data array to a new array with just the calculation strings, do this inside of getCalculations
+  // 2.using method from before with 'joined' var, add the reponse.data array to the calculationArray in state,
+  // -this will cause getCalculations to format the returned data from the db into an array that can be used by NumberList to display correctly
+
   getCalculations = (_) => {
     fetch("http://localhost:4000/calculations")
       .then((response) => response.json())
-      .then((response) => this.setState({ calculations: response.data }))
+      .then(jsonResponse => {
+        console.log(jsonResponse)
+        return jsonResponse.data.map(calcObject => calcObject.calc)
+      })
+      .then((calcArray) => {
+        console.log(calcArray)
+        var joined = this.state.calculationArray.concat(calcArray);
+        this.setState({ calculationArray: joined })
+      })
       .catch((err) => console.error(err));
   };
 
   addCalculation = (_) => {
-    const calculationArray = this.state;
+    const { calculationArray } = this.state;
+    console.log(`adding ${calculationArray[calculationArray.length - 1]} to the database`)
 
     fetch(
       `http://localhost:4000/calculations/add?calc=${calculationArray[calculationArray.length - 1]}`
@@ -57,7 +72,6 @@ class App extends Component {
 
   addToInput = (val) => {
     if (this.state.evaluating === true) {
-      console.log(`added to input while evaluating true`);
       this.setState({
         input: val,
         calcRecord: val,
@@ -65,14 +79,12 @@ class App extends Component {
         evaluating: false,
       });
     } else if (this.state.input.slice(-1) === " " || !this.state.input) {
-      console.log(`added to input after operator or nothing`);
       this.setState({
         input: this.state.input + val,
         calcRecord: this.state.calcRecord + val,
         currentNumber: val,
       });
     } else {
-      console.log(`added to input after number`);
       this.setState({
         input: this.state.input + val,
         calcRecord: this.state.calcRecord + val,
@@ -109,16 +121,18 @@ class App extends Component {
     });
   };
 
+  // handleChange = (e) => {
+  //   this.setState(this.setAnswer(this.evaluate()), this.addCalculation);
+  // }
+
   handleEvaluate = () => {
-    const { calculationArray } = this.state;
-    console.log(`input is: ${this.state.input}`)
-    console.log(calculationArray[0])
     if(this.state.evaluating === true) {
-      this.addCalculation();
+      // this.addCalculation();
       return;
     } else {
+      // this.handleChange()
     this.setAnswer(this.evaluate());
-    this.addCalculation();
+    // this.addCalculation();
     this.setState({
       input: this.evaluate(),
       evaluating: true,
@@ -134,10 +148,6 @@ class App extends Component {
         parseFloat(this.state.previousNumber) +
         parseFloat(this.state.currentNumber);
     } else if (this.state.operator === "subtract") {
-      // console.log(`here is previousnumber: ${this.state.previousNumber}`)
-      // console.log(`here is currentnumber: ${this.state.currentNumber}`)
-      // console.log(`here is PARSE previousnumber: ${parseFloat(this.state.previousNumber)}`)
-      // console.log(`here is PARSE currentnumber: ${parseFloat(this.state.currentNumber)}`)
       answer =
         parseFloat(this.state.previousNumber) -
         parseFloat(this.state.currentNumber);
@@ -154,18 +164,14 @@ class App extends Component {
   };
 
   setAnswer = (answer) => {
-    console.log(`set answer went off`)
+
     let newCalculation = this.state.calcRecord + " = " + answer;
-    console.log(
-      `newCalculation is: ${newCalculation}, setting calculationList equal to it..`
-    );
 
     const { calcList } = this.state;
-    this.setState({ calculationList: newCalculation });
+    // this.setState({ calculationList: newCalculation });
 
     var joined = this.state.calculationArray.concat(newCalculation);
     // this.setState({ calculationArray: joined });
-
     if (calcList.length < 10) {
       this.setState({
         calcRecord: newCalculation,

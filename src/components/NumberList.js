@@ -6,7 +6,8 @@ class NumberList extends Component {
   render() {
     let calcArray = this.props.calculationArray;
     console.log(calcArray)
-    const calcItems = calcArray.slice(0).reverse().map((calculation) =>
+
+    const calcItems = calcArray.slice(0).reverse().slice(0,10).map((calculation) =>
       <li>{calculation}</li>
     );
 
@@ -15,3 +16,5 @@ class NumberList extends Component {
 }
 
 export default NumberList;
+
+
