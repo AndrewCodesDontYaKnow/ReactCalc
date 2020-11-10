@@ -1,15 +1,20 @@
 const express = require('express');
 const cors = require('cors');
 const mysql = require('mysql');
-// import App from './src/App';
-
+const path = require("path");
 const app = express();
+const PORT = process.env.PORT || 4000;
+
+app.use(express.static(path.join(__dirname, "build")));
+
+// This route serves the React app
+app.get('/', (req, res) => res.sendFile(path.resolve(__dirname, "build", "index.html")));
 
 const SELECT_TEN_CALCS_QUERY = 'SELECT calc FROM calctable ORDER BY id DESC LIMIT 10;';
 const CLEAR_ALL_CALCS_QUERY = 'DELETE * FROM calctable;'
 // const SELECT_ALL_CALCULATIONS_QUERY = 'SELECT * FROM calctable';
 
-const connection = mysql.createConnection({
+let connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: 'password',
@@ -19,14 +24,13 @@ const connection = mysql.createConnection({
 if (process.env.JAWSDB_URL) {
     connection = mysql.createConnection(process.env.JAWSDB_URL);
 } else {
-    connection = myql.createConnection({
+    connection = mysql.createConnection({
         host: 'localhost',
         user: 'root',
         password: 'password',
         database: 'calculator_db'
     })
 }
-
 
 connection.connect(err => {
     if(err) {
@@ -36,9 +40,9 @@ connection.connect(err => {
 
 app.use(cors());
 
-app.get('/', (req, res) => {
-   res.send('go to the /calculations route to see calculations')
-});
+// app.get('/', (req, res) => {
+//    res.send('go to the /calculations route to see calculations')
+// });
 
 app.get('/calculations/add', (req, res) => {
     const { calc } = req.query;
@@ -79,12 +83,5 @@ app.get('/calculations', (req, res) => {
 //     })
 // })
 
-const PORT = process.env.PORT || 4000;
 
-
-
-
-
-app.listen(4000, () => {
-    console.log(`Calculations server listening on port ${PORT}.`)
-})
+app.listen(PORT, () => console.log(`Server listening on port ${PORT}`));
