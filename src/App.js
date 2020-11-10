@@ -34,7 +34,7 @@ class App extends Component {
   };
 
   getCalculations = (_) => {
-    fetch("http://localhost:4000/calculations")
+    fetch("http://localhost:3306/calculations")
       .then((response) => response.json())
       .then(jsonResponse => {
         return jsonResponse.data.map(calcObject => calcObject.calc)
@@ -52,7 +52,7 @@ class App extends Component {
     console.log(`adding ${calculationArray[calculationArray.length - 1]} to the database`)
 
     fetch(
-      `http://localhost:4000/calculations/add?calc=${calculationArray[calculationArray.length - 1]}`
+      `http://localhost:3306/calculations/add?calc=${calculationArray[calculationArray.length - 1]}`
     )
       // .then(response => response.json())
       .then(this.getCalculations)
@@ -66,7 +66,7 @@ class App extends Component {
 
   clearCalculations = (_) => {
     fetch(
-      `http://localhost:4000/clear/`
+      `http://localhost:3306/clear/`
     )
     .catch((err) => console.error(err))
   }
