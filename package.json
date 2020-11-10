@@ -20,11 +20,13 @@
     "sqlite3": "^5.0.0"
   },
   "scripts": {
-    "start": "node server.js",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "heroku-postbuild": "npm install"
+    "start": "if-env NODE_ENV=production && npm run start:prod || npm run start:dev",
+    "start:prod": "node server.js",
+    "start:dev": "concurrently \"nodemon --ignore 'client/*'\" \"npm run client\"",
+    "client": "cd client && npm run start",
+    "install": "cd client && npm install",
+    "build": "cd client && npm run build",
+    "heroku-postbuild": "npm run build"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -42,9 +44,9 @@
     ]
   },
   "devDependencies": {
-    "@babel/core": "^7.12.3",
-    "@babel/preset-react": "^7.12.5",
-    "mime": "^2.4.6"
+    "mime": "^2.4.6",
+    "concurrently": "^4.1.0",
+    "nodemon": "^1.18.7"
   },
   "engines": {
     "npm": "6.14.4",

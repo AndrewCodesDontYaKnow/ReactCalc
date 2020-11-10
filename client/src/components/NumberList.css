@@ -1,0 +1,13 @@
+li {
+    display: flex;
+    height: 43m;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    font-weight: lighter;
+    font-size: 2em;
+    color: purple;
+    padding: 6px;
+    position: relative;
+    bottom: 50px;
+}
