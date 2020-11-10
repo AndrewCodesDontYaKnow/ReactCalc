@@ -29,6 +29,10 @@ class App extends Component {
     };
   }
 
+//   generateKey = (pre) => {
+//     return `${ pre }_${ new Date().getTime() }`;
+// }
+
   componentDidMount = () => {
     this.getCalculations();
   };
@@ -233,7 +237,7 @@ class App extends Component {
   render() {
     // const { calculations } = this.state;
     return (
-      <div className="App">
+      <div key={ generateKey(data) } className="App">
         {/* <div className="calcArea">
           {this.state.calculations.map(this.renderCalculation)}
         </div> */}
@@ -276,8 +280,8 @@ class App extends Component {
             {/* <ClearButton handleClear={this.clearCalculations}>Clear Calculations</ClearButton> */}
           </div>
         </div>
-        <div className="list-wrapper">
-          <NumberList calculationArray={this.state.calculationArray} />
+        <div key={ generateKey(data) } className="list-wrapper">
+          <NumberList key={ generateKey(data) } calculationArray={this.state.calculationArray} />
         </div>
       </div>
     );
