@@ -29,7 +29,7 @@ class App extends Component {
   }
 
   componentDidMount = () => {
-    this.getCalculations();
+    // this.getCalculations();
   };
 
   
