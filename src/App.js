@@ -41,6 +41,7 @@ class App extends Component {
     fetch("/calculations")
       .then((response) => response.json())
       .then(jsonResponse => {
+        console.log(jsonResponse)
         return jsonResponse.data.map(calcObject => calcObject.calc)
       })
       .then((calcArray) => {
