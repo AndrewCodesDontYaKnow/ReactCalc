@@ -16,7 +16,7 @@
     "path": "^0.12.7"
   },
   "scripts": {
-    "start": "npm start",
+    "start": "NODE_ENV=production next start -p $PORT ./app",
     "start:prod": "node server.js",
     "start:dev": "concurrently \"nodemon --ignore 'client/*'\" \"npm run client\"",
     "client": "cd client && npm run start",
