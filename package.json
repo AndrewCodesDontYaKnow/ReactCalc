@@ -21,7 +21,7 @@
     "start:dev": "concurrently \"nodemon --ignore 'client/*'\" \"npm run client\"",
     "client": "cd client && npm run start",
     "install": "cd client && npm install",
-    "postinstall": "ng build --aot --prod",
+    "postinstall": "npm run build",
     "build": "cd client && npm run build"
   },
   "eslintConfig": {
