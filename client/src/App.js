@@ -15,13 +15,6 @@ class App extends Component {
       currentNumber: "",
       operator: "",
       calcRecord: "",
-      answer: "",
-      calculations: [],
-      calculation: {
-        id: 1,
-        calc: "sample calculation",
-      },
-      calculationList: "calculationListhi",
       calculationArray: [""],
       calcList: [],
       evaluating: false,
@@ -32,7 +25,6 @@ class App extends Component {
     this.getCalculations();
   };
 
-  
   getCalculations = (_) => {
     fetch("/calculations")
       .then((response) => response.json())
@@ -41,28 +33,17 @@ class App extends Component {
       })
       .then((calcArray) => {
         console.log(`got the calcs: ${calcArray}`);
-        // var joined = this.state.calculationArray.concat(calcArray);
-        this.setState({ calculationArray: calcArray })
+        this.setState({ calculationArray: calcArray });
       })
       .catch((err) => console.error(err));
   };
 
   addCalculation = () => {
-    const { calculationArray } = this.state;
-    console.log(
-      `adding ${this.state.calcRecord} to the database`
-    );
-
-    // this needs to change, it is sending the last one to the front needlessly
-    fetch(
-      `/calculations/add?calc=${this.state.calcRecord}`
-    )
-      // .then(response => response.json())
+    fetch(`/calculations/add?calc=${this.state.calcRecord}`)
       .then(this.getCalculations)
       .catch((err) => console.error(err));
   };
 
-  //
   renderCalculation = ({ id, calc }) => {
     return <div key={id}>{calc}</div>;
   };
@@ -95,7 +76,6 @@ class App extends Component {
   };
 
   addZeroToInput = (val) => {
-    // if this.state.input is not empty then add zero
     if (this.state.input !== "") {
       this.setState({
         input: this.state.input + val,
@@ -106,7 +86,6 @@ class App extends Component {
   };
 
   addDecimal = (val) => {
-    // if there is no decimal in input, then add the decimal
     if (this.state.input.indexOf(".") === -1) {
       this.setState({
         input: this.state.input + val,
@@ -122,19 +101,11 @@ class App extends Component {
     });
   };
 
-  // handleChange = () => {
-  //   this.setState(this.setAnswer(this.evaluate()), this.addCalculation);
-  // }
-
   handleEvaluate = () => {
-    // this.addCalculation()
     if (this.state.evaluating === true) {
-      // this.addCalculation();
       return;
     } else {
-      // this.handleChange()
       this.setAnswer(this.evaluate());
-      // this.addCalculation();
       this.setState({
         input: this.evaluate(),
         evaluating: true,
@@ -167,33 +138,17 @@ class App extends Component {
 
   setAnswer = (answer) => {
     let newCalculation = this.state.calcRecord + " = " + answer;
-    // this.addCalculation(newCalculation)
     const { calcList } = this.state;
-    // this.setState({ calculationList: newCalculation });
 
-    var joined = this.state.calculationArray.concat(newCalculation);
-    // this.setState({ calculationArray: joined });
     if (calcList.length < 10) {
-      this.setState(
-        {
-          calcRecord: newCalculation,
-          // calculationArray: joined,
-        },
-        () => {
-          this.addCalculation();
-        }
-      );
+      this.setState({ calcRecord: newCalculation }, () => {
+        this.addCalculation();
+      });
     } else if (calcList.length >= 10) {
       this.setState({ calcList: calcList.shift() });
-      this.setState(
-        {
-          calcRecord: newCalculation,
-          // calculationArray: joined,
-        },
-        () => {
-          this.addCalculation();
-        }
-      );
+      this.setState({ calcRecord: newCalculation }, () => {
+        this.addCalculation();
+      });
     }
   };
 
@@ -234,20 +189,8 @@ class App extends Component {
   };
 
   render() {
-    // const { calculations } = this.state;
     return (
       <div className="App">
-        {/* <div className="calcArea">
-          {this.state.calculations.map(this.renderCalculation)}
-        </div> */}
-        {/* <div>
-          <p className="test array" >
-            HELLO jsonArray{this.state.jsonArray}
-          </p>
-          <p className="test array" >
-            HELLO calculationArray{this.state.calculationArray}
-          </p>
-        </div> */}
         <div className="calc-wrapper">
           <div className="row">
             <Input>{this.state.input}</Input>
@@ -283,7 +226,6 @@ class App extends Component {
 
           <div className="row">
             <ClearButton handleClear={this.clearInput}>Clear</ClearButton>
-            {/* <ClearButton handleClear={this.clearCalculations}>Clear Calculations</ClearButton> */}
           </div>
         </div>
         <div className="list-wrapper">
@@ -295,24 +237,3 @@ class App extends Component {
 }
 
 export default App;
-
-// submit = (event) => {
-//   event.preventDefault();
-
-//   const payload = {
-//     calculation: this.state.calcRecord
-//   };
-
-//   axios({
-//     url: 'http://localhost:8080/api/save',
-//     method: 'POST',
-//     data: payload
-//   })
-//   .then(() => {
-//     console.log('Data has been sent to server')
-//   })
-//   .catch(() => {
-//     console.log('Internal server error')
-//   });
-
-// }

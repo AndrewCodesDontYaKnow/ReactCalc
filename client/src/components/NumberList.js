@@ -5,19 +5,13 @@ class NumberList extends Component {
 
   render() {
     let calcArray = this.props.calculationArray;
-    // console.log(calcArray)
-    const calcItems = calcArray.map((calculation) => {
-      // console.log(calculation)
-    const calculationWithPlus = calculation.replace("   ", " + ")
-    //   console.log(calculationWithPlus)
-      return <li>{calculationWithPlus}</li>
-    }
-    );
 
+    const calcItems = calcArray.map((calculation) => {
+      const calculationWithPlus = calculation.replace("   ", " + ");
+      return <li>{calculationWithPlus}</li>;
+    });
     return <ul>{calcItems}</ul>;
   }
 }
 
 export default NumberList;
-
-
