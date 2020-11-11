@@ -50,11 +50,12 @@ class App extends Component {
   addCalculation = () => {
     const { calculationArray } = this.state;
     console.log(
-      `adding ${calculationArray[calculationArray.length - 1]} to the database`
+      `adding ${calcRecord} to the database`
     );
 
+    // this needs to change, it is sending the last one to the front needlessly
     fetch(
-      `/calculations/add?calc=${calculationArray[calculationArray.length - 1]}`
+      `/calculations/add?calc=${calcRecord}`
     )
       // .then(response => response.json())
       .then(this.getCalculations)
@@ -171,12 +172,12 @@ class App extends Component {
     // this.setState({ calculationList: newCalculation });
 
     var joined = this.state.calculationArray.concat(newCalculation);
-    this.setState({ calculationArray: joined });
+    // this.setState({ calculationArray: joined });
     if (calcList.length < 10) {
       this.setState(
         {
           calcRecord: newCalculation,
-          calculationArray: joined,
+          // calculationArray: joined,
         },
         () => {
           this.addCalculation();
@@ -187,7 +188,7 @@ class App extends Component {
       this.setState(
         {
           calcRecord: newCalculation,
-          calculationArray: joined,
+          // calculationArray: joined,
         },
         () => {
           this.addCalculation();
