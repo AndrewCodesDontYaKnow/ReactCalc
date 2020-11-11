@@ -32,6 +32,7 @@ class App extends Component {
     this.getCalculations();
   };
 
+  
   getCalculations = (_) => {
     fetch("/calculations")
       .then((response) => response.json())
@@ -239,10 +240,10 @@ class App extends Component {
           {this.state.calculations.map(this.renderCalculation)}
         </div> */}
         <div>
-          <p className="test array" key={generateKey(data)}>
+          <p className="test array" >
             HELLO jsonArray{this.state.jsonArray}
           </p>
-          <p className="test array" key={generateKey(data)}>
+          <p className="test array" >
             HELLO calculationArray{this.state.calculationArray}
           </p>
         </div>

@@ -29,9 +29,9 @@ class App extends Component {
     };
   }
 
-//   generateKey = (pre) => {
-//     return `${ pre }_${ new Date().getTime() }`;
-// }
+  generateKey = (pre) => {
+    return `${ pre }_${ new Date().getTime() }`;
+}
 
   componentDidMount = () => {
     this.getCalculations();
