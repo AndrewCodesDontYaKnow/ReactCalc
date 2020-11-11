@@ -29,7 +29,7 @@ class App extends Component {
   }
 
   componentDidMount = () => {
-    // this.getCalculations();
+    this.getCalculations();
   };
 
   
@@ -178,10 +178,11 @@ class App extends Component {
         {
           calcRecord: newCalculation,
           // calculationArray: joined,
-        },
-        () => {
-          this.addCalculation();
         }
+        // ,
+        // () => {
+        //   // this.addCalculation();
+        // }
       );
     } else if (calcList.length >= 10) {
       this.setState({ calcList: calcList.shift() });
@@ -189,10 +190,11 @@ class App extends Component {
         {
           calcRecord: newCalculation,
           // calculationArray: joined,
-        },
-        () => {
-          this.addCalculation();
         }
+        // ,
+        // () => {
+        //   // this.addCalculation();
+        // }
       );
     }
   };
