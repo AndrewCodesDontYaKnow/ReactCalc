@@ -19,7 +19,7 @@ let connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: 'password',
-    database: 'calculator_db'
+    database: 'rapqabntephwgrnb'
 });
 
 if (process.env.JAWSDB_URL) {
@@ -29,7 +29,7 @@ if (process.env.JAWSDB_URL) {
         host: 'localhost',
         user: 'root',
         password: 'password',
-        database: 'calculator_db'
+        database: 'rapqabntephwgrnb'
     })
 }
 
