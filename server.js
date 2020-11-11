@@ -13,7 +13,6 @@ app.get('/', (req, res) => res.sendFile(path.resolve(__dirname, "/client/build",
 
 const SELECT_TEN_CALCS_QUERY = 'SELECT calc FROM calculations ORDER BY id DESC LIMIT 10;';
 const CLEAR_ALL_CALCS_QUERY = 'DELETE * FROM calculations;'
-const INSERT_CALCULATION_QUERY = `INSERT INTO calculations (calc) VALUES ('${calc}');`;
 
 // const SELECT_ALL_CALCULATIONS_QUERY = 'SELECT * FROM calctable';
 
@@ -21,7 +20,7 @@ let connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: 'password',
-    database: 'rapqabntephwgrnb'
+    database: 'calculator_db'
 });
 
 if (process.env.JAWSDB_URL) {
@@ -31,7 +30,7 @@ if (process.env.JAWSDB_URL) {
         host: 'localhost',
         user: 'root',
         password: 'password',
-        database: 'rapqabntephwgrnb'
+        database: 'calculator_db'
     })
 }
 
@@ -51,6 +50,8 @@ app.get('/calculations/add', (req, res) => {
     const { calc } = req.query;
     console.log(`here is req.query.calc: ${calc}`)
     
+    const INSERT_CALCULATION_QUERY = `INSERT INTO calculations (calc) VALUES ('${calc}');`;
+
     connection.query(INSERT_CALCULATION_QUERY, (err, results) => {
         if(err) {
             return res.send(err)
