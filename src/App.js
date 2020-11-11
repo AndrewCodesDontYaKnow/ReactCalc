@@ -25,7 +25,7 @@ class App extends Component {
       calculationArray: [''],
       calcList: [],
       evaluating: false,
-
+      jsonArray: []
     };
   }
 
@@ -42,6 +42,7 @@ class App extends Component {
       .then((response) => response.json())
       .then(jsonResponse => {
         console.log(jsonResponse)
+        this.setState({ jsonArray: jsonResponse })
         return jsonResponse.data.map(calcObject => calcObject.calc)
       })
       .then((calcArray) => {
@@ -242,6 +243,12 @@ class App extends Component {
         {/* <div className="calcArea">
           {this.state.calculations.map(this.renderCalculation)}
         </div> */}
+        <div >
+        <p key={ generateKey(data) } >HELLO{this.state.jsonArray}</p>
+        </div>
+        {/* <h1>HELLO H1 world
+
+        </h1> */}
 
         <div className="calc-wrapper">
           <div className="row">

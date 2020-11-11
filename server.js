@@ -9,7 +9,7 @@ const PORT = process.env.PORT || 4000;
 app.use(express.static(path.join(__dirname, "/client/build")));
 
 // This route serves the React app
-app.get('/', (req, res) => res.sendFile(path.resolve(__dirname, "/client/build", "index.html")));
+app.get('/', (req, res) => res.sendFile(path.resolve(__dirname, "build", "index.html")));
 
 const SELECT_TEN_CALCS_QUERY = 'SELECT calc FROM calculations ORDER BY id DESC LIMIT 10;';
 const CLEAR_ALL_CALCS_QUERY = 'DELETE * FROM calculations;'
@@ -49,7 +49,7 @@ app.use(cors());
 app.get('/calculations/add', (req, res) => {
     const { calc } = req.query;
     console.log(`here is req.query.calc: ${calc}`)
-    
+    // table name must be calctable on local, and calculations on deployed
     const INSERT_CALCULATION_QUERY = `INSERT INTO calculations (calc) VALUES ('${calc}');`;
 
     connection.query(INSERT_CALCULATION_QUERY, (err, results) => {
