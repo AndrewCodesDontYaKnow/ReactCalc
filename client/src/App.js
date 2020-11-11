@@ -42,8 +42,7 @@ class App extends Component {
       .then((calcArray) => {
         console.log(`got the calcs: ${calcArray}`);
         var joined = this.state.calculationArray.concat(calcArray);
-        var joinedLastTen = joined.slice(joined.length - 10)
-        this.setState({ calculationArray: joinedLastTen })
+        this.setState({ calculationArray: joined })
       })
       .catch((err) => console.error(err));
   };
