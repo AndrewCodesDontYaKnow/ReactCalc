@@ -244,7 +244,8 @@ class App extends Component {
           {this.state.calculations.map(this.renderCalculation)}
         </div> */}
         <div >
-        <p key={ generateKey(data) } >HELLO{this.state.jsonArray}</p>
+        <p className="test array" key={ generateKey(data) } >HELLO{this.state.jsonArray}</p>
+        <p className="test array" key={ generateKey(data) } >HELLO{this.state.calculationArray}</p>
         </div>
         {/* <h1>HELLO H1 world
 
