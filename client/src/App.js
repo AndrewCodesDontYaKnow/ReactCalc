@@ -21,8 +21,11 @@ class App extends Component {
     };
   }
 
+
+
   componentDidMount = () => {
-    this.getCalculations();
+    // this.getCalculations();
+    setInterval(() => this.getCalculations(), 1000);
   };
 
   getCalculations = (_) => {
