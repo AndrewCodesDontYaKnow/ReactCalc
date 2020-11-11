@@ -50,12 +50,12 @@ class App extends Component {
   addCalculation = () => {
     const { calculationArray } = this.state;
     console.log(
-      `adding ${calcRecord} to the database`
+      `adding ${this.state.calcRecord} to the database`
     );
 
     // this needs to change, it is sending the last one to the front needlessly
     fetch(
-      `/calculations/add?calc=${calcRecord}`
+      `/calculations/add?calc=${this.state.calcRecord}`
     )
       // .then(response => response.json())
       .then(this.getCalculations)
