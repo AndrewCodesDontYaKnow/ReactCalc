@@ -134,7 +134,7 @@ class App extends Component {
     } else {
       // this.handleChange()
       this.setAnswer(this.evaluate());
-      this.addCalculation();
+      // this.addCalculation();
       this.setState({
         input: this.evaluate(),
         evaluating: true,
@@ -178,11 +178,10 @@ class App extends Component {
         {
           calcRecord: newCalculation,
           // calculationArray: joined,
+        },
+        () => {
+          this.addCalculation();
         }
-        // ,
-        // () => {
-        //   // this.addCalculation();
-        // }
       );
     } else if (calcList.length >= 10) {
       this.setState({ calcList: calcList.shift() });
@@ -190,11 +189,10 @@ class App extends Component {
         {
           calcRecord: newCalculation,
           // calculationArray: joined,
+        },
+        () => {
+          this.addCalculation();
         }
-        // ,
-        // () => {
-        //   // this.addCalculation();
-        // }
       );
     }
   };
@@ -242,14 +240,14 @@ class App extends Component {
         {/* <div className="calcArea">
           {this.state.calculations.map(this.renderCalculation)}
         </div> */}
-        <div>
+        {/* <div>
           <p className="test array" >
             HELLO jsonArray{this.state.jsonArray}
           </p>
           <p className="test array" >
             HELLO calculationArray{this.state.calculationArray}
           </p>
-        </div>
+        </div> */}
         <div className="calc-wrapper">
           <div className="row">
             <Input>{this.state.input}</Input>
