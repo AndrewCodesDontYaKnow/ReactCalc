@@ -8,7 +8,7 @@ const PORT = process.env.PORT || 4000;
 app.use(express.static(path.join(__dirname, "build")));
 
 // This route serves the React app
-app.get('/', (req, res) => res.sendFile(path.resolve(__dirname, "build", "index.html")));
+app.get('/', (req, res) => res.sendFile(path.resolve(__dirname, "/client/build", "index.html")));
 
 const SELECT_TEN_CALCS_QUERY = 'SELECT calc FROM calctable ORDER BY id DESC LIMIT 10;';
 const CLEAR_ALL_CALCS_QUERY = 'DELETE * FROM calctable;'
