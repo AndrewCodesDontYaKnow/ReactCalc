@@ -47,8 +47,8 @@ class App extends Component {
       })
       .then((calcArray) => {
         console.log(`got the calcs: ${calcArray}`)
-        // var joined = this.state.calculationArray.concat(calcArray);
-        // this.setState({ calculationArray: calcArray })
+        var joined = this.state.calculationArray.concat(calcArray);
+        this.setState({ calculationArray: joined })
       })
       .catch((err) => console.error(err));
   };

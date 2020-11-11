@@ -22,10 +22,9 @@ class App extends Component {
         calc: "sample calculation",
       },
       calculationList: "calculationListhi",
-      calculationArray: [''],
+      calculationArray: [""],
       calcList: [],
       evaluating: false,
-
     };
   }
 
@@ -36,20 +35,22 @@ class App extends Component {
   getCalculations = (_) => {
     fetch("/calculations")
       .then((response) => response.json())
-      .then(jsonResponse => {
-        return jsonResponse.data.map(calcObject => calcObject.calc)
+      .then((jsonResponse) => {
+        return jsonResponse.data.map((calcObject) => calcObject.calc);
       })
       .then((calcArray) => {
-        console.log(`got the calcs: ${calcArray}`)
-        // var joined = this.state.calculationArray.concat(calcArray);
-        // this.setState({ calculationArray: calcArray })
+        console.log(`got the calcs: ${calcArray}`);
+        var joined = this.state.calculationArray.concat(calcArray);
+        this.setState({ calculationArray: joined })
       })
       .catch((err) => console.error(err));
   };
 
   addCalculation = () => {
     const { calculationArray } = this.state;
-    console.log(`adding ${calculationArray[calculationArray.length - 1]} to the database`)
+    console.log(
+      `adding ${calculationArray[calculationArray.length - 1]} to the database`
+    );
 
     fetch(
       `/calculations/add?calc=${calculationArray[calculationArray.length - 1]}`
@@ -65,11 +66,8 @@ class App extends Component {
   };
 
   clearCalculations = (_) => {
-    fetch(
-      `/clear`
-    )
-    .catch((err) => console.error(err))
-  }
+    fetch(`/clear`).catch((err) => console.error(err));
+  };
 
   addToInput = (val) => {
     if (this.state.evaluating === true) {
@@ -128,18 +126,18 @@ class App extends Component {
 
   handleEvaluate = () => {
     // this.addCalculation()
-    if(this.state.evaluating === true) {
+    if (this.state.evaluating === true) {
       // this.addCalculation();
       return;
     } else {
       // this.handleChange()
-    this.setAnswer(this.evaluate());
-    this.addCalculation();
-    this.setState({
-      input: this.evaluate(),
-      evaluating: true,
-    });
-  }
+      this.setAnswer(this.evaluate());
+      this.addCalculation();
+      this.setState({
+        input: this.evaluate(),
+        evaluating: true,
+      });
+    }
   };
 
   evaluate = () => {
@@ -166,7 +164,6 @@ class App extends Component {
   };
 
   setAnswer = (answer) => {
-
     let newCalculation = this.state.calcRecord + " = " + answer;
     // this.addCalculation(newCalculation)
     const { calcList } = this.state;
@@ -175,22 +172,26 @@ class App extends Component {
     var joined = this.state.calculationArray.concat(newCalculation);
     this.setState({ calculationArray: joined });
     if (calcList.length < 10) {
-      this.setState({
-        calcRecord: newCalculation,
-        calculationArray: joined,
-      },
-      () => {
-        this.addCalculation()
-    });
+      this.setState(
+        {
+          calcRecord: newCalculation,
+          calculationArray: joined,
+        },
+        () => {
+          this.addCalculation();
+        }
+      );
     } else if (calcList.length >= 10) {
       this.setState({ calcList: calcList.shift() });
-      this.setState({
-        calcRecord: newCalculation,
-        calculationArray: joined,
-      },
-      () => {
-        this.addCalculation()
-    });
+      this.setState(
+        {
+          calcRecord: newCalculation,
+          calculationArray: joined,
+        },
+        () => {
+          this.addCalculation();
+        }
+      );
     }
   };
 
@@ -237,7 +238,14 @@ class App extends Component {
         {/* <div className="calcArea">
           {this.state.calculations.map(this.renderCalculation)}
         </div> */}
-
+        <div>
+          <p className="test array" key={generateKey(data)}>
+            HELLO jsonArray{this.state.jsonArray}
+          </p>
+          <p className="test array" key={generateKey(data)}>
+            HELLO calculationArray{this.state.calculationArray}
+          </p>
+        </div>
         <div className="calc-wrapper">
           <div className="row">
             <Input>{this.state.input}</Input>
@@ -270,7 +278,7 @@ class App extends Component {
             <Button handleClick={this.handleEvaluate}>=</Button>
             <Button handleClick={this.subtract}>-</Button>
           </div>
-          
+
           <div className="row">
             <ClearButton handleClear={this.clearInput}>Clear</ClearButton>
             {/* <ClearButton handleClear={this.clearCalculations}>Clear Calculations</ClearButton> */}
