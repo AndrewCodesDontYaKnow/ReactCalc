@@ -11,7 +11,7 @@ app.use(express.static(path.join(__dirname, "/client/build")));
 // This route serves the React app
 app.get('/', (req, res) => res.sendFile(path.resolve(__dirname, "build", "index.html")));
 
-const SELECT_TEN_CALCS_QUERY = 'SELECT * FROM calculations;';
+const SELECT_TEN_CALCS_QUERY = 'SELECT calc FROM calculations ORDER BY id DESC LIMIT 10;';
 const CLEAR_ALL_CALCS_QUERY = 'DELETE * FROM calculations;'
 
 // const SELECT_ALL_CALCULATIONS_QUERY = 'SELECT * FROM calctable';
