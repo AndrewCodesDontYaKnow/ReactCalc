@@ -1,7 +1,7 @@
 # ReactCalc
 
 ## Description
-A calculator that displays the ten most recent calculations made.
+A shared calculator that displays the ten most recent calculations made by any user.
 
 URL: https://andrewcodesdontyaknow.github.io/ReactCalc
  
