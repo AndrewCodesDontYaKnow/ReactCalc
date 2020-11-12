@@ -31,7 +31,7 @@
   Enter a calculation into the calculator and your calculation record will be saved in a database and displayed to the right, at the top of the list. As you enter more calculations, they will move down the list, with the most recent calculation at the top.
   
   ## <a id='Deployment' style='color:white;'>Deployment</a>
-Deployment was done using JawsDB hooks into a MySQL database. React Calc is hosted on Heroku.
+React Calc is hosted on Heroku. Database deployment was done using JawsDB hooks in the MySQL database. 
 
   ## <a id='Contribution' style='color:white;'>Contribution</a>
   Fork the repo and submit potential changes for future development.
