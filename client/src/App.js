@@ -21,10 +21,7 @@ class App extends Component {
     };
   }
 
-
-
   componentDidMount = () => {
-    // this.getCalculations();
     setInterval(() => this.getCalculations(), 1000);
   };
 
@@ -232,6 +229,7 @@ class App extends Component {
           </div>
         </div>
         <div className="list-wrapper">
+          <div className="calcLogTitle">Calculation Log:</div>
           <NumberList calculationArray={this.state.calculationArray} />
         </div>
       </div>
