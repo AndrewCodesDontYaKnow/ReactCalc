@@ -12,6 +12,14 @@
     height: 600px;
 }
 
+.list-wrapper {
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin: auto;
+    width: 400px;
+}
+
 .row {
     display: flex;
     width: 100%;
@@ -28,14 +36,21 @@
     color: purple;
     padding: 6px;
     position: relative;
-    bottom: 50px;
+    bottom: 80px;
 }
 
-.calcArea {
-    position: absolute;
-    top: 3px;
-    color: white;
-    background-color: purple;
-    height: 100px;
-    width: 100px;
+.calcLogTitle {
+    border-bottom: 1px solid purple;
+    padding: 0 0 4px;
+    text-align: center;
 }
+
+  @media screen and (min-width: 1200px) {
+    .container {
+      width: 50%;
+      display: inline-flex;
+    }
+    .list-wrapper {
+        margin-left: 25px;
+    }
+  }

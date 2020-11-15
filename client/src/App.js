@@ -191,6 +191,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+        <div className="container">
         <div className="calc-wrapper">
           <div className="row">
             <Input>{this.state.input}</Input>
@@ -231,6 +232,7 @@ class App extends Component {
         <div className="list-wrapper">
           <div className="calcLogTitle">Calculation Log:</div>
           <NumberList calculationArray={this.state.calculationArray} />
+        </div>
         </div>
       </div>
     );
