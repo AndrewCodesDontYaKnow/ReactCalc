@@ -55,17 +55,6 @@ class App extends Component {
       .catch((err) => console.error(err));
   };
 
-  renderCalculation = ({ id, calc }) => {
-    return <div key={id}>{calc}</div>;
-  };
-
-  clearCalculations = (_) => {
-    fetch(
-      `/clear`
-    )
-    .catch((err) => console.error(err))
-  }
-
   addToInput = (val) => {
     if (this.state.evaluating === true) {
       this.setState({
